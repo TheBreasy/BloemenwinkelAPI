@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace BloemenwinkelAPI
 {
@@ -25,7 +26,40 @@ namespace BloemenwinkelAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContextPool<GarageDatabaseContext>(
+               dbContextOptions => dbContextOptions
+                   .UseMySql(
+                       // Replace with your connection string. Should be in your env but for example purposes this is _good enough_ for now
+                       "server=localhost;user=root;password=root;database=bloemenwinkel",
+                       // Replace with your server version and type.
+                       mySqlOptions => mySqlOptions
+                           .ServerVersion(new Version(5, 7, 24), ServerType.MySql)
+                           .CharSetBehavior(CharSetBehavior.NeverAppend))
+                   // Everything from this point on is optional but helps with debugging.
+                   .UseLoggerFactory(
+                       LoggerFactory.Create(
+                           logging => logging
+                               .AddConsole()
+                               .AddFilter(level => level >= LogLevel.Information)))
+                   .EnableSensitiveDataLogging()
+                   .EnableDetailedErrors());
+
+            // Singleton is a design pattern (https://refactoring.guru/design-patterns/singleton) 
+            services.AddSingleton<IInMemoryDatabase, InMemoryDatabase>();
+
+            // Generate a swagger file automatically (https://swagger.io/) using swashbuckle (https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Flower store API",
+                });
+            });
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,6 +76,13 @@ namespace BloemenwinkelAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            // Add a UI for swaggerUI
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My flower store API V1");
             });
         }
     }
