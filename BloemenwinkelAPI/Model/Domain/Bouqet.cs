@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BloemenwinkelAPI.API.Models.Domain
 {
-    public class Boeket : BaseDatabaseClass
+    public class Bouqet : BaseDatabaseClass
     {
         [Required]
         public string Name { get; set; }
         [Required]
-        public double Prijs { get; set; }
+        public double Price { get; set; }
         [Required]
-        public string Beschrijving { get; set; }
+        public string Description { get; set; }
     }
 }

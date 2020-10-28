@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BloemenwinkelAPI.API.Models.Domain
 {
-    public class Winkel : BaseDatabaseClass
+    public class Store : BaseDatabaseClass
     {
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Adres { get; set; }
+        public string Address { get; set; }
         [Required]
-        public string Regio { get; set; }
+        public string Region { get; set; }
     }
 }

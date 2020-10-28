@@ -14,8 +14,8 @@ namespace BloemenwinkelAPI.Database
         }
 
         //A DbSet can be used to add/query items. It maps to a table.
-        public DbSet<Boeket> Boeket { get; set; }
-        public DbSet<Winkel> Winkel { get; set; }
+        public DbSet<Bouqet> Bouqet { get; set; }
+        public DbSet<Store> Store { get; set; }
         public DbSet<Order> Order { get; set; }
     }
 }
