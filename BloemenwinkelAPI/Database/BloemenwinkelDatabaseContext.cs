@@ -1,3 +1,4 @@
+using BloemenwinkelAPI.API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,5 +18,4 @@ namespace BloemenwinkelAPI.Database
         public DbSet<Winkel> Winkel { get; set; }
         public DbSet<Order> Order { get; set; }
     }
-}
 }
