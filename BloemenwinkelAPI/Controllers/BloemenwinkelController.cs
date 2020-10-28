@@ -1,8 +1,3 @@
-using System;
-using System.Linq;
-using BloemenwinkelAPI.Database;
-using BloemenwinkelAPI.Model.Domain;
-using BloemenwinkelAPI.Model.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.InMemory.Storage.Internal;
 using Microsoft.Extensions.Logging;
