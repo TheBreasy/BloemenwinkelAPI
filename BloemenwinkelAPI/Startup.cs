@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BloemenwinkelAPI.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.InMemory.Storage.Internal;
 using Microsoft.Extensions.Configuration;
@@ -49,9 +45,6 @@ namespace BloemenwinkelAPI
                    .EnableSensitiveDataLogging()
                    .EnableDetailedErrors());
 
-            // Singleton is a design pattern (https://refactoring.guru/design-patterns/singleton) 
-            services.AddSingleton<IInMemoryDatabase, InMemoryDatabase>();
-
             // Generate a swagger file automatically (https://swagger.io/) using swashbuckle (https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
             services.AddSwaggerGen(c =>
             {
@@ -66,12 +59,14 @@ namespace BloemenwinkelAPI
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BloemenwinkelDatabaseContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
