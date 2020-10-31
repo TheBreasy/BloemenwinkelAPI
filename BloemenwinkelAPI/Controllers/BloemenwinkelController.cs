@@ -1,6 +1,10 @@
+using System.Linq;
+using BloemenwinkelAPI.Model.Domain;
+using BloemenwinkelAPI.Model.Web;
+using BloemenwinkelAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.InMemory.Storage.Internal;
 using Microsoft.Extensions.Logging;
+using BloemenwinkelAPI.Model;
 
 namespace BloemenwinkelAPI.Controllers
 {
@@ -8,13 +12,21 @@ namespace BloemenwinkelAPI.Controllers
     [Route("Bloemenwinkel")]
     public class BloemenwinkelController : ControllerBase
     {
-        private readonly IInMemoryDatabase _database;
+        private readonly IBouqetRepository _bouquetRepository;
         private readonly ILogger<BloemenwinkelController> _logger;
 
-        public BloemenwinkelController(IInMemoryDatabase database, ILogger<BloemenwinkelController> logger)
+        public BloemenwinkelController(IBouqetRepository bouqetRepository, ILogger<BloemenwinkelController> logger)
         {
+            _bouquetRepository = bouqetRepository;
             _logger = logger;
-            //_database = database;
+        }
+
+        [HttpGet]
+        public IActionResult GetAllBouqets()
+        {
+            _logger.LogInformation("Getting all bouqets");
+            var bouqets = _bouquetRepository.GetAllBouqets().Select(x => x.Convert()).ToList();
+            return Ok(bouqets);
         }
 
         [HttpGet]

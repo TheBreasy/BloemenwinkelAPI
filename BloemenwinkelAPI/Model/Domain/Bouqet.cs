@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BloemenwinkelAPI.API.Models.Domain
+namespace BloemenwinkelAPI.Model.Domain
 {
     public class Bouqet : BaseDatabaseClass
     {

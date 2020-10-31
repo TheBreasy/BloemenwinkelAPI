@@ -1,8 +1,6 @@
-using BloemenwinkelAPI.API.Models.Domain;
+using BloemenwinkelAPI.Model.Domain;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace BloemenwinkelAPI.Database
 {

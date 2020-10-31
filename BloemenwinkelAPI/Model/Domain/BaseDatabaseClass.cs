@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BloemenwinkelAPI.API.Models.Domain
+namespace BloemenwinkelAPI.Model.Domain
 {
     public class BaseDatabaseClass
     {
