@@ -12,7 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace BloemenwinkelAPI.Controllers
 {
     [ApiController]
-    [Route("Bouqets")]
+    [Route("BloemenwinkelAPI/Model/Bouquet")]
     public class BouqetController : ControllerBase
     {
         private readonly IBouqetRepository _bouquetRepository;

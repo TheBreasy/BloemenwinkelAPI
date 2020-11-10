@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Snapshooter.Xunit" Version="0.5.8" />
+  </ItemGroup>
+
 </Project>

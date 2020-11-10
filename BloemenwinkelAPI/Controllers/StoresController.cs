@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace BloemenwinkelAPI.Controllers
 {
     [ApiController]
-    [Route("stores")]
+    [Route("BloemenwinkelAPI/Model/Store")]
     public class StoresController : ControllerBase
     {
         private readonly IStoreRepository _storeRepository;
