@@ -61,9 +61,9 @@ namespace BloemenwinkelAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteGarage(int id)
+        public IActionResult DeleteStore(int id)
         {
-            _logger.LogInformation("Deleting a garage", id);
+            _logger.LogInformation("Deleting a store", id);
             try
             {
                 _storeRepository.Delete(id);
