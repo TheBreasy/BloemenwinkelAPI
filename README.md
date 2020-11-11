@@ -3,10 +3,10 @@
 ## Installation requirements
 
 You will need the following software:
-•	.NET Core (At least version 3.1).
-•	An editor/IDE of your choice. We recommend using Visual Studio because of its support capabilities for C#.
-•	A local MySQL server.
-•	A visual tool for your MySQL database (e.g. phpMyAdmin).
+- [.NET Core (At least version 3.1).](https://dotnet.microsoft.com/download)
+- An editor/IDE of your choice. We recommend using Visual Studio because of its support capabilities for C#.
+- A local MySQL server.
+- A visual tool for your MySQL database (e.g. phpMyAdmin).
 
 ## Setup the API
 1.	Clone the repository in the desired file location.
@@ -18,4 +18,4 @@ You will need the following software:
 7.	Open up your browser and navigate to to http://localhost:5000/swagger/index.html. This will give you an overview of all the API endpoints and a quick method to execute them.
 
 ## To do’s
-•	Setup endpoints in OrderController.cs for BouquetSales(), BouquetSalesPerStore(), TurnoverStore(), ComparisonStoreSales()
+- Setup endpoints in OrderController.cs for BouquetSales(), BouquetSalesPerStore(), TurnoverStore(), ComparisonStoreSales()
