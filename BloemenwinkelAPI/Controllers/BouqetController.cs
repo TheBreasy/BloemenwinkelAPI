@@ -5,6 +5,9 @@ using BloemenwinkelAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BloemenwinkelAPI.Model;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace BloemenwinkelAPI.Controllers
 {
@@ -22,13 +25,15 @@ namespace BloemenwinkelAPI.Controllers
         }
 
         [HttpGet("{storeId}/bouqets")]
-        /*[ProducesResponseType(typeof(IEnumerable<BouqetWebOutput>), StatusCodes.Status200OK)]*/
-        public IActionResult GetAllBouqetsFromStore(int storeId)
+        [ProducesResponseType(typeof(IEnumerable<BouqetWebOutput>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAllBouqetsFromStore(int storeId)   
         {
             _logger.LogInformation($"Getting all bouqets for store {storeId}");
             try
             {
-                return Ok(_bouquetRepository.GetAllBouqets(storeId).Select(x => x.Convert()).ToList());
+                var bouqets = await _bouquetRepository.GetAllBouqets(storeId);//.Select(x => x.Convert()).ToList; Commented because when adding the Async Task, the Selection is not available anymore.
+                return Ok(bouqets);
             }
             catch (NotFoundException)
             {
@@ -37,20 +42,26 @@ namespace BloemenwinkelAPI.Controllers
         }
 
         [HttpGet("{storeId}/bouqets/{bouqetId}")]
-        public IActionResult GetOneBouqetByIdFromStore(int storeId, int bouqetId)
+        [ProducesResponseType(typeof(BouqetWebOutput), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetOneBouqetByIdFromStore(int storeId, int bouqetId)
         {
             _logger.LogInformation($"Getting one bouqet {bouqetId} from store {storeId}");
-            var bouqet = _bouquetRepository.GetOneBouqetById(storeId, bouqetId);
+            var bouqet = await _bouquetRepository.GetOneBouqetById(storeId, bouqetId);
             return bouqet == null ? (IActionResult)NotFound() : Ok(bouqet.Convert());
         }
 
+        //Allows the user to register a bouquet sale.
         [HttpPost("{storeId}/bouqets")]
-        public IActionResult AddBouqetToStore(int storeId, BouqetUpsertInput input)
+        [ProducesResponseType(typeof(BouqetWebOutput), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> RegisterBouquetSale(int storeId, BouqetUpsertInput input)
         {
             _logger.LogInformation($"Creating a bouqet for store {storeId}");
             try
             {
-                var persistedBouqet = _bouquetRepository.Insert(storeId, input.Name, input.Price, input.Description);
+                var persistedBouqet = await _bouquetRepository.Insert(storeId, input.Name, input.Price, input.Description);
                 return Created($"/stores/{storeId}/bouqets/{persistedBouqet.Id}", persistedBouqet.Convert());
             }
             catch (NotFoundException)
@@ -60,12 +71,15 @@ namespace BloemenwinkelAPI.Controllers
         }
 
         [HttpPatch("{id}/bouqets/{bouqetId}")]
-        public IActionResult UpdateBouqet(int storeId, int bouqetId, BouqetUpsertInput input)
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> UpdateBouqet(int storeId, int bouqetId, BouqetUpsertInput input)
         {
             _logger.LogInformation($"Updating bouqet {bouqetId} for store {storeId}");
             try
             {
-                _bouquetRepository.Update(storeId, bouqetId, input.Name, input.Price);
+                await _bouquetRepository.Update(storeId, bouqetId, input.Name, input.Price);
                 return Accepted();
             }
             catch (NotFoundException)
@@ -75,12 +89,15 @@ namespace BloemenwinkelAPI.Controllers
         }
 
         [HttpDelete("{id}/bouqets/{bouqetId}")]
-        public IActionResult DeleteBouqetFromStore(int storeId, int bouqetId)
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> DeleteBouqetFromStore(int storeId, int bouqetId)
         {
             _logger.LogInformation($"Deleting bouqet {bouqetId} from store {storeId}");
             try
             {
-                _bouquetRepository.Delete(storeId, bouqetId);
+                await _bouquetRepository.Delete(storeId, bouqetId);
             }
             catch (NotFoundException)
             {
@@ -88,37 +105,5 @@ namespace BloemenwinkelAPI.Controllers
             }
             return NoContent();
         }
-
-        [HttpGet]
-        public IActionResult BouquetSales()
-        {
-            return null;
-        }
-
-        [HttpGet]
-        public IActionResult BouquetSalesPerStore()
-        {
-            return null;
-        }
-
-        [HttpGet]
-        public IActionResult TurnoverStore()
-        {
-            return null;
-        }
-
-        [HttpGet]
-        public IActionResult ComparisonStoreSales()
-        {
-            return null;
-        }
-
-        [HttpGet]
-        public IActionResult RegisterBouquetSale()
-        {
-            return null;
-        }
-
-
     }
 }

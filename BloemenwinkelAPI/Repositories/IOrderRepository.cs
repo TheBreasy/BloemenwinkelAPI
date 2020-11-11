@@ -10,12 +10,12 @@ namespace BloemenwinkelAPI.Repositories
 {
     public interface IOrderRepository
     {
-        IEnumerable<Order> GetAllOrders(int storeId);
-        IEnumerable<Order> GetBestSellingBouqets();
-        Order GetOneOrderById(int storeId, int bouqetId);
-        void Delete(int storeId, int orderId);
-        Order Insert(int storeId, int bouqetId, int amount);
-        Order Update(int storeId, int bouqetId, int orderId, int amount);
+        Task<IEnumerable<Order>> GetAllOrders(int storeId);
+        Task<IEnumerable<Order>> GetBestSellingBouqets();
+        Task<Order> GetOneOrderById(int storeId, int bouqetId);
+        Task Delete(int storeId, int orderId);
+        Task<Order> Insert(int storeId, int bouqetId, int amount);
+        Task<Order> Update(int storeId, int bouqetId, int orderId, int amount);
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BloemenwinkelAPI.Database;
 using BloemenwinkelAPI.Model;
 using BloemenwinkelAPI.Model.Domain;
@@ -16,9 +17,9 @@ namespace BloemenwinkelAPI.Repositories
             _context = context;
         }
 
-        public IEnumerable<Order> GetAllOrders(int storeId)
+        public async Task<IEnumerable<Order>> GetAllOrders(int storeId)
         {
-            var orderFromStores = _context.Store.Include(x => x.Orders).FirstOrDefault(x => x.Id == storeId);
+            var orderFromStores = await _context.Store.Include(x => x.Orders).FirstOrDefaultAsync(x => x.Id == storeId);
             if (orderFromStores == null)
             {
                 throw new NotFoundException();
@@ -26,15 +27,15 @@ namespace BloemenwinkelAPI.Repositories
             return orderFromStores.Orders;
         }
 
-        public IEnumerable<Order> GetBestSellingBouqets()
+        public async Task<IEnumerable<Order>> GetBestSellingBouqets()
         {
-            return _context.Order.ToList();
+            return await _context.Order.ToListAsync();
         }
 
-        public Order GetOneOrderById(int storeId, int orderId)
+        public async Task<Order> GetOneOrderById(int storeId, int orderId)
         {
             CheckStoreExists(storeId);
-            var order = _context.Order.FirstOrDefault(x => x.StoreId == storeId && x.Id == orderId);
+            var order = await _context.Order.FirstOrDefaultAsync(x => x.StoreId == storeId && x.Id == orderId);
             if (order == null)
             {
                 throw new NotFoundException();
@@ -42,14 +43,14 @@ namespace BloemenwinkelAPI.Repositories
             return order;
         }
 
-        public void Delete(int storeId, int orderId)
+        public async Task Delete(int storeId, int orderId)
         {
-            var order = GetOneOrderById(storeId, orderId);
+            var order = await GetOneOrderById(storeId, orderId);
             _context.Order.Remove(order);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Order Insert(int storeId, int bouqetId, int amount)
+        public async Task<Order> Insert(int storeId, int bouqetId, int amount)
         {
             CheckStoreExists(storeId);
             var order = new Order()
@@ -58,24 +59,24 @@ namespace BloemenwinkelAPI.Repositories
                 BouqetId = bouqetId,
                 Amount = amount
             };
-            _context.Order.Add(order);
-            _context.SaveChanges();
+            await _context.Order.AddAsync(order);
+            await _context.SaveChangesAsync();
             return order;
         }
 
-        public Order Update(int storeId, int bouqetId, int orderId, int amount)
+        public async Task<Order> Update(int storeId, int bouqetId, int orderId, int amount)
         {
-            var order = GetOneOrderById(storeId, orderId);
+            var order = await GetOneOrderById(storeId, orderId);
             order.StoreId = storeId;
             order.BouqetId = bouqetId;
             order.Amount = amount;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return order;
         }
 
         private void CheckStoreExists(int storeId)
         {
-            var storeCheck = _context.Store.Find(storeId);
+            var storeCheck =  _context.Store.Find(storeId);
             if (storeCheck == null)
             {
                 throw new NotFoundException();

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using BloemenwinkelAPI.Database;
 using BloemenwinkelAPI.Model;
 using BloemenwinkelAPI.Model.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloemenwinkelAPI.Repositories
 {
@@ -15,48 +16,50 @@ namespace BloemenwinkelAPI.Repositories
             _context = context;
         }
 
-        public IEnumerable<Store> GetAllStores()
+        public async Task<IEnumerable<Store>> GetAllStores()
         {
-            return _context.Store.ToList();
+            return await _context.Store.ToListAsync();
         }
 
-        public Store GetOneStoreById(int id)
+        public async Task<Store> GetOneStoreById(int id)
         {
-            return _context.Store.Find(id);
+            return await _context.Store.FindAsync(id);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var store = _context.Store.Find(id);
+            var store = await _context.Store.FindAsync(id);
             if (store == null)
             {
                 throw new NotFoundException();
             }
 
             _context.Store.Remove(store);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Store Insert(string name)
+        public async Task<Store> Insert(string name)
         {
-            var store = new Store
+            var store =  new Store
             {
                 Name = name
             };
-            _context.Store.Add(store);
-            _context.SaveChanges();
+            await _context.Store.AddAsync(store);
+            await _context.SaveChangesAsync();
             return store;
         }
-
-        public Store Update(int id, string name)
+        
+        public async Task<Store> Update(int id, string name, string address, string region)
         {
-            var store = _context.Store.Find(id);
+            var store = await _context.Store.FindAsync(id);
             if (store == null)
             {
                 throw new NotFoundException();
             }
             store.Name = name;
-            _context.SaveChanges();
+            store.Address = address;
+            store.Region = region;
+            await _context.SaveChangesAsync();
             return store;
         }
     }

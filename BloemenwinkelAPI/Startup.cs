@@ -37,7 +37,6 @@ namespace BloemenwinkelAPI
                        mySqlOptions => mySqlOptions
                            .ServerVersion(new Version(5, 7, 24), ServerType.MySql)
                            .CharSetBehavior(CharSetBehavior.NeverAppend))
-                   // Everything from this point on is optional but helps with debugging.
                    .UseLoggerFactory(
                        LoggerFactory.Create(
                            logging => logging
@@ -46,7 +45,7 @@ namespace BloemenwinkelAPI
                    .EnableSensitiveDataLogging()
                    .EnableDetailedErrors());
 
-            // Generate a swagger file automatically (https://swagger.io/) using swashbuckle (https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+            // Generates a swagger file automatically (https://swagger.io/) using swashbuckle (https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -57,8 +56,6 @@ namespace BloemenwinkelAPI
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
-
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BloemenwinkelDatabaseContext context)

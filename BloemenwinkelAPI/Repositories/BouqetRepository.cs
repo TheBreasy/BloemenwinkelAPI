@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BloemenwinkelAPI.Database;
 using BloemenwinkelAPI.Model;
 using BloemenwinkelAPI.Model.Domain;
@@ -16,9 +17,9 @@ namespace BloemenwinkelAPI.Repositories
             _context = context;
         }
 
-        public IEnumerable<Bouqet> GetAllBouqets(int storeId)
+        public async Task<IEnumerable<Bouqet>> GetAllBouqets(int storeId)
         {
-            var storeWithBouqets = _context.Store.Include(x => x.Bouqets).FirstOrDefault(x => x.Id == storeId);
+            var storeWithBouqets = await _context.Store.Include(x => x.Bouqets).FirstOrDefaultAsync(x => x.Id == storeId);
             if (storeWithBouqets == null)
             {
                 throw new KeyNotFoundException();
@@ -26,10 +27,10 @@ namespace BloemenwinkelAPI.Repositories
             return storeWithBouqets.Bouqets;
         }
 
-        public Bouqet GetOneBouqetById(int storeId, int bouqetId)
+        public async Task<Bouqet> GetOneBouqetById(int storeId, int bouqetId)
         {
             CheckStoreExists(storeId);
-            var bouqet = _context.Bouqet.FirstOrDefault(x => x.StoreId == storeId && x.Id == bouqetId);
+            var bouqet = await _context.Bouqet.FirstOrDefaultAsync(x => x.StoreId == storeId && x.Id == bouqetId);
             if (bouqet == null)
             {
                 throw new NotFoundException();
@@ -37,14 +38,14 @@ namespace BloemenwinkelAPI.Repositories
             return bouqet;
         }
 
-        public void Delete(int storeId, int bouqetId)
+        public async Task Delete(int storeId, int bouqetId)
         {
-            var bouqet = _context.Bouqet.Find(storeId, bouqetId);
+            var bouqet = await _context.Bouqet.FindAsync(storeId, bouqetId);
             _context.Bouqet.Remove(bouqet);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Bouqet Insert(int storeId, string name, double price, string description)
+        public async Task<Bouqet> Insert(int storeId, string name, double price, string description)
         {
             CheckStoreExists(storeId);
             var bouqet = new Bouqet
@@ -53,17 +54,17 @@ namespace BloemenwinkelAPI.Repositories
                 Price = price,
                 Description = description
             };
-            _context.Bouqet.Add(bouqet);
-            _context.SaveChanges();
+            await _context.Bouqet.AddAsync(bouqet);
+            await _context.SaveChangesAsync();
             return bouqet;
         }
 
-        public Bouqet Update(int storeId, int bouqetId, string name, double price)
+        public async Task<Bouqet> Update(int storeId, int bouqetId, string name, double price)
         {
-            var bouqet = GetOneBouqetById(storeId, bouqetId);
+            var bouqet = await GetOneBouqetById(storeId, bouqetId);
             bouqet.Name = name;
             bouqet.Price = price;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return bouqet;
         }
 

@@ -18,7 +18,6 @@ namespace BloemenwinkelAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            // Add some logging
             .ConfigureLogging(x =>
             {
                 x.ClearProviders();
@@ -26,8 +25,6 @@ namespace BloemenwinkelAPI
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    // Indicate further configuration can be found in the startup file. 
-                    // If you use visual studio code, you can navigate to the definition (right click on Startup)
                     webBuilder.UseStartup<Startup>();
                 });
     }
