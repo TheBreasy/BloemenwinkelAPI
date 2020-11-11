@@ -96,7 +96,7 @@ namespace BloemenwinkelAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult BouquetSalesStore()
+        public IActionResult BouquetSalesPerStore()
         {
             return null;
         }
