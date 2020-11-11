@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloemenwinkelAPI.Migrations
 {
     [DbContext(typeof(BloemenwinkelDatabaseContext))]
-    [Migration("20201031122715_InitialCreate")]
+    [Migration("20201111180514_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace BloemenwinkelAPI.Migrations
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BloemenwinkelAPI.API.Models.Domain.Bouqet", b =>
+            modelBuilder.Entity("BloemenwinkelAPI.Model.Domain.Bouqet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,28 +30,45 @@ namespace BloemenwinkelAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(1024)")
+                        .HasMaxLength(1024);
 
                     b.Property<double>("Price")
                         .HasColumnType("double");
 
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
 
                     b.ToTable("Bouqet");
                 });
 
-            modelBuilder.Entity("BloemenwinkelAPI.API.Models.Domain.Order", b =>
+            modelBuilder.Entity("BloemenwinkelAPI.Model.Domain.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BouqetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
 
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("BloemenwinkelAPI.API.Models.Domain.Store", b =>
+            modelBuilder.Entity("BloemenwinkelAPI.Model.Domain.Store", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +80,8 @@ namespace BloemenwinkelAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(1024)")
+                        .HasMaxLength(1024);
 
                     b.Property<string>("Region")
                         .IsRequired()
@@ -72,6 +90,24 @@ namespace BloemenwinkelAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Store");
+                });
+
+            modelBuilder.Entity("BloemenwinkelAPI.Model.Domain.Bouqet", b =>
+                {
+                    b.HasOne("BloemenwinkelAPI.Model.Domain.Store", "Store")
+                        .WithMany("Bouqets")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BloemenwinkelAPI.Model.Domain.Order", b =>
+                {
+                    b.HasOne("BloemenwinkelAPI.Model.Domain.Store", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -14,5 +14,7 @@ namespace BloemenwinkelAPI.Model.Domain
         public string Region { get; set; }
 
         public IEnumerable<Bouqet> Bouqets { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BloemenwinkelAPI.Model.Domain;
 using BloemenwinkelAPI.Model.Web;
+using Microsoft.AspNetCore.Components;
 
 namespace BloemenwinkelAPI.Model
 {
@@ -12,7 +13,12 @@ namespace BloemenwinkelAPI.Model
 
         public static BouqetWebOutput Convert(this Bouqet input)
         {
-            return new BouqetWebOutput(input.Id, input.Name);
+            return new BouqetWebOutput(input.Id, input.StoreId, input.Name, input.Description, input.Price);
+        }
+
+        public static OrderWebOutput Convert(this Order input)
+        {
+            return new OrderWebOutput(input.Id, input.StoreId, input.BouqetId, input.Amount);
         }
     }
 }

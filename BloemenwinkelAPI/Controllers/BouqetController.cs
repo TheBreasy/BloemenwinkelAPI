@@ -5,14 +5,11 @@ using BloemenwinkelAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BloemenwinkelAPI.Model;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
-using System.Security.Cryptography.X509Certificates;
 
 namespace BloemenwinkelAPI.Controllers
 {
     [ApiController]
-    [Route("BloemenwinkelAPI/Model/Bouquet")]
+    [Route("stores")]
     public class BouqetController : ControllerBase
     {
         private readonly IBouqetRepository _bouquetRepository;
