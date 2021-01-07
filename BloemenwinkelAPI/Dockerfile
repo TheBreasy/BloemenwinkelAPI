@@ -11,5 +11,5 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Copy over the xml file
-# COPY --from=build-env /app/BloemenWinkelAPI.xml .
+COPY --from=build-env /app/BloemenWinkelAPI.xml .
 ENTRYPOINT ["dotnet", "./BloemenwinkelAPI.dll"]

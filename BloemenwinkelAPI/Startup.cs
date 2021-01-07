@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using BloemenwinkelAPI.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +55,10 @@ namespace BloemenwinkelAPI
                     Version = "v1",
                     Title = "Flower store API",
                 });
+
+                /*var xmlFile = $"{Assembly.GetEntryAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);*/
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
