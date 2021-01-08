@@ -10,7 +10,7 @@
             </summary>
             <param name="storeId">The unique identifier of the store</param>
             <returns>A list of bouqets from the given storeid</returns>
-            <response code="200">The get function was succesful</response>
+            <response code="200">The list was succesfully aquired</response>
             <response code="404">The get function didn't find any store of storeid</response>
         </member>
         <member name="M:BloemenwinkelAPI.Controllers.BouqetController.GetOneBouqetByIdFromStore(System.Int32,System.Int32)">
@@ -20,7 +20,7 @@
             <param name="storeId">The unique identifier of the store</param>
             <param name="bouqetId">The unique identifier of the bouqet</param>
             <returns>A single bouqet of bouqetid from store of storeid</returns>
-            <response code="200">The get function was succesful</response>
+            <response code="200">The bouqet is succesfully aquired</response>
             <response code="404">The get function didn't find any store of storeid or bouqet of bouqetid</response>
         </member>
         <member name="M:BloemenwinkelAPI.Controllers.BouqetController.AddBouqetToStore(System.Int32,BloemenwinkelAPI.Model.Web.BouqetUpsertInput)">
@@ -30,7 +30,7 @@
             <param name="storeId">The unique identifier of the store</param>
             <param name="input">The body of the store</param>
             <returns></returns>
-            <response code="201">Bouqet is created</response>
+            <response code="201">A new bouqet is created</response>
             <response code="404">The storeId was not found</response>
         </member>
         <member name="M:BloemenwinkelAPI.Controllers.BouqetController.UpdateBouqetToStore(System.Int32,System.Int32,BloemenwinkelAPI.Model.Web.BouqetUpsertInput)">
@@ -53,6 +53,48 @@
             <returns></returns>
             <respons code="204">Bouqet is deleted</respons>
             <respons code="404">Either storeId or bouqetId or both ids were not found</respons>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.StoresController.GetAllStores">
+            <summary>
+            Gets a list of all the stores.
+            </summary>
+            <returns>A list of all stores.</returns>
+            <response code="200">The list of stores was succesfully aquired</response>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.StoresController.StoreById(System.Int32)">
+            <summary>
+            Get a store for the given storeId
+            </summary>
+            <param name="id">The unique identifier of the store</param>
+            <returns>The store that matches the storeid</returns>
+            <response code="200">The store is succesfully aquired</response>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.StoresController.CreateStore(BloemenwinkelAPI.Model.Web.StoreUpsertInput)">
+            <summary>
+            Creates a new store
+            </summary>
+            <param name="input">The body of the store</param>
+            <returns></returns>
+            <response code="201">A new store is created</response>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.StoresController.UpdateStore(System.Int32,BloemenwinkelAPI.Model.Web.StoreUpsertInput)">
+            <summary>
+            Updates an existing store by id
+            </summary>
+            <param name="id">The unique identifier from the store</param>
+            <param name="input">The body of the store</param>
+            <returns></returns>
+            <response code="202">The store is succesfully updated</response>
+            <response code="404">The id was not found</response>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.StoresController.DeleteStore(System.Int32)">
+            <summary>
+            Deletes an existing store by id
+            </summary>
+            <param name="id">The unique identifier of the store</param>
+            <returns></returns>
+            <response code="202">The store is succesfully deleted</response>
+            <response code="404">The given id was not found</response>
         </member>
     </members>
 </doc>
