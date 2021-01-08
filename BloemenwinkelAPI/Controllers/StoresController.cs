@@ -23,24 +23,41 @@ namespace BloemenwinkelAPI.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets a list of all the stores.
+        /// </summary>
+        /// <returns>A list of all stores.</returns>
+        /// <response code="200">The list of stores was succesfully aquired</response>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<StoreWebOutput>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllStores()
         {
             _logger.LogInformation("Getting all stores");
-            var stores = await _storeRepository.GetAllStores();//.Select(x => x.Convert()).ToList(); Commented because when adding the Async Task, the Selection is not available anymore.
+            var stores = (await _storeRepository.GetAllStores()).Select(x => x.Convert()).ToList();
             return Ok(stores);
         }
 
+        /// <summary>
+        /// Get a store for the given storeId
+        /// </summary>
+        /// <param name="id">The unique identifier of the store</param>
+        /// <returns>The store that matches the storeid</returns>
+        /// <response code="200">The store is succesfully aquired</response>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(StoreWebOutput), StatusCodes.Status200OK)]
         public async Task<IActionResult> StoreById(int id)
         {
             _logger.LogInformation("Getting store by id", id);
             var store = await _storeRepository.GetOneStoreById(id);
-            return store == null ? (IActionResult)NotFound() : Ok(store.Convert());
+            return store == null ? (IActionResult) NotFound() : Ok(store.Convert());
         }
 
+        /// <summary>
+        /// Creates a new store
+        /// </summary>
+        /// <param name="input">The body of the store</param>
+        /// <returns></returns>
+        /// <response code="201">A new store is created</response>
         [HttpPost]
         [ProducesResponseType(typeof(StoreWebOutput), StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
@@ -51,6 +68,14 @@ namespace BloemenwinkelAPI.Controllers
             return Created($"/stores/{persistedStore.Id}", persistedStore.Convert());
         }
 
+        /// <summary>
+        /// Updates an existing store by id
+        /// </summary>
+        /// <param name="id">The unique identifier from the store</param>
+        /// <param name="input">The body of the store</param>
+        /// <returns></returns>
+        /// <response code="202">The store is succesfully updated</response>
+        /// <response code="404">The id was not found</response>
         [HttpPatch("{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,6 +95,13 @@ namespace BloemenwinkelAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an existing store by id
+        /// </summary>
+        /// <param name="id">The unique identifier of the store</param>
+        /// <returns></returns>
+        /// <response code="202">The store is succesfully deleted</response>
+        /// <response code="404">The given id was not found</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

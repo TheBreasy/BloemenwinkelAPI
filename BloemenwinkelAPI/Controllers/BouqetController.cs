@@ -29,7 +29,7 @@ namespace BloemenwinkelAPI.Controllers
         /// </summary>
         /// <param name="storeId">The unique identifier of the store</param>
         /// <returns>A list of bouqets from the given storeid</returns>
-        /// <response code="200">The get function was succesful</response>
+        /// <response code="200">The list was succesfully aquired</response>
         /// <response code="404">The get function didn't find any store of storeid</response>
         [HttpGet("{storeId}/bouqets")]
         [ProducesResponseType(typeof(IEnumerable<BouqetWebOutput>), StatusCodes.Status200OK)]
@@ -54,7 +54,7 @@ namespace BloemenwinkelAPI.Controllers
         /// <param name="storeId">The unique identifier of the store</param>
         /// <param name="bouqetId">The unique identifier of the bouqet</param>
         /// <returns>A single bouqet of bouqetid from store of storeid</returns>
-        /// <response code="200">The get function was succesful</response>
+        /// <response code="200">The bouqet is succesfully aquired</response>
         /// <response code="404">The get function didn't find any store of storeid or bouqet of bouqetid</response>
         [HttpGet("{storeId}/bouqets/{bouqetId}")]
         [ProducesResponseType(typeof(BouqetWebOutput), StatusCodes.Status200OK)]
@@ -73,7 +73,7 @@ namespace BloemenwinkelAPI.Controllers
         /// <param name="storeId">The unique identifier of the store</param>
         /// <param name="input">The body of the store</param>
         /// <returns></returns>
-        /// <response code="201">Bouqet is created</response>
+        /// <response code="201">A new bouqet is created</response>
         /// <response code="404">The storeId was not found</response>
         [HttpPost("{storeId}/bouqets")]
         [ProducesResponseType(typeof(BouqetWebOutput), StatusCodes.Status201Created)]
