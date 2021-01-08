@@ -17,5 +17,7 @@ You will need the following software:
 6.	Use ‘dotnet run’ to start the API.
 7.	Open up your browser and navigate to to http://localhost:5000/swagger/index.html. This will give you an overview of all the API endpoints and a quick method to execute them.
 
-## To do’s
-- Setup endpoints in OrderController.cs for BouquetSales(), BouquetSalesPerStore(), TurnoverStore(), ComparisonStoreSales()
+## What we couldn't finish
+- Endpoints aren't fully completed.
+- MongoDB is partially working.
+- Tried to insert the external API 'BasisRegisters.Vlaanderen' but the use reference link didn't work.
