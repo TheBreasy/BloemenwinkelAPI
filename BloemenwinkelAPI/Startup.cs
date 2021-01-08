@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using BloemenwinkelAPI.Database;
 using BloemenwinkelAPI.Model;
 using BloemenwinkelAPI.Services;
@@ -79,8 +80,6 @@ namespace BloemenwinkelAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
