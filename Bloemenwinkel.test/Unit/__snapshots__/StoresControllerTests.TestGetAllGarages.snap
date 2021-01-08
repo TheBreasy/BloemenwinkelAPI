@@ -1,0 +1,32 @@
+﻿{
+  "Value": [
+    {
+      "Name": "test store 1",
+      "Address": "Straat 1",
+      "Region": "Antwerpen",
+      "Bouqets": [],
+      "Orders": null,
+      "Id": 1
+    },
+    {
+      "Name": "test store 2",
+      "Address": "Straat 2",
+      "Region": "Temse",
+      "Bouqets": [],
+      "Orders": null,
+      "Id": 1
+    },
+    {
+      "Name": "test store 3",
+      "Address": "Straat 3",
+      "Region": "Lennik",
+      "Bouqets": [],
+      "Orders": null,
+      "Id": 1
+    }
+  ],
+  "Formatters": [],
+  "ContentTypes": [],
+  "DeclaredType": null,
+  "StatusCode": 200
+}
