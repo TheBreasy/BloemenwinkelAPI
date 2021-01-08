@@ -24,6 +24,13 @@ namespace BloemenwinkelAPI.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Gets a list of all bouqets from a store given by id.
+        /// </summary>
+        /// <param name="storeId">The unique identifier of the store</param>
+        /// <returns>A list of bouqets from the given storeid</returns>
+        /// <response code="200">The get function was succesful</response>
+        /// <response code="404">The get function didn't find any store of storeid</response>
         [HttpGet("{storeId}/bouqets")]
         [ProducesResponseType(typeof(IEnumerable<BouqetWebOutput>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +48,14 @@ namespace BloemenwinkelAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets one bouqet of bouqetid from the store of storeid.
+        /// </summary>
+        /// <param name="storeId">The unique identifier of the store</param>
+        /// <param name="bouqetId">The unique identifier of the bouqet</param>
+        /// <returns>A single bouqet of bouqetid from store of storeid</returns>
+        /// <response code="200">The get function was succesful</response>
+        /// <response code="404">The get function didn't find any store of storeid or bouqet of bouqetid</response>
         [HttpGet("{storeId}/bouqets/{bouqetId}")]
         [ProducesResponseType(typeof(BouqetWebOutput), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

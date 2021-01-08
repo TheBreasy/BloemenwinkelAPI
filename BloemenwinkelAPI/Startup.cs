@@ -1,6 +1,9 @@
 using System;
+using System.IO;
 using System.Linq;
 using BloemenwinkelAPI.Database;
+using BloemenwinkelAPI.Model;
+using BloemenwinkelAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
@@ -26,6 +30,15 @@ namespace BloemenwinkelAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // requires using Microsoft.Extensions.Options
+            services.Configure<BloemenwinkelDatabaseSettings>(
+                Configuration.GetSection(nameof(BloemenwinkelDatabaseSettings)));
+
+            services.AddSingleton<IBloemenwinkelDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<BloemenwinkelDatabaseSettings>>().Value);
+
+            services.AddSingleton<Orderservice>();
+
             services.AddControllers();
 
             services.AddDbContextPool<BloemenwinkelDatabaseContext>(
@@ -53,6 +66,8 @@ namespace BloemenwinkelAPI
                     Version = "v1",
                     Title = "Flower store API",
                 });
+                var xmlPath = Path.Combine(System.AppContext.BaseDirectory, "BloemenwinkelAPI.xml");
+                c.IncludeXmlComments(xmlPath);
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BloemenwinkelAPI</name>
+    </assembly>
+    <members>
+        <member name="M:BloemenwinkelAPI.Controllers.BouqetController.GetAllBouqetsFromStore(System.Int32)">
+            <summary>
+            Gets a list of all bouqets from a store given by id.
+            </summary>
+            <param name="storeId">The unique identifier of the store</param>
+            <returns>A list of bouqets from the given storeid</returns>
+            <response code="200">The get function was succesful</response>
+            <response code="404">The get function didn't find any store of storeid</response>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.BouqetController.GetOneBouqetByIdFromStore(System.Int32,System.Int32)">
+            <summary>
+            Gets one bouqet of bouqetid from the store of storeid.
+            </summary>
+            <param name="storeId">The unique identifier of the store</param>
+            <param name="bouqetId">The unique identifier of the bouqet</param>
+            <returns>A single bouqet of bouqetid from store of storeid</returns>
+            <response code="200">The get function was succesful</response>
+            <response code="404">The get function didn't find any store of storeid or bouqet of bouqetid</response>
+        </member>
+    </members>
+</doc>
