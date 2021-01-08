@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace BloemenwinkelAPI.Controllers
 {
     [ApiController]
-    [Route("stores")]
+    [Route("bouqets")]
     public class BouqetController : ControllerBase
     {
         private readonly IBouqetRepository _bouquetRepository;
@@ -39,7 +39,7 @@ namespace BloemenwinkelAPI.Controllers
             _logger.LogInformation($"Getting all bouqets for store {storeId}");
             try
             {
-                var bouqets = await _bouquetRepository.GetAllBouqets(storeId);//.Select(x => x.Convert()).ToList; Commented because when adding the Async Task, the Selection is not available anymore.
+                var bouqets = (await _bouquetRepository.GetAllBouqets(storeId)).Select(x => x.Convert()).ToList();
                 return Ok(bouqets);
             }
             catch (NotFoundException)
@@ -66,12 +66,20 @@ namespace BloemenwinkelAPI.Controllers
             return bouqet == null ? (IActionResult)NotFound() : Ok(bouqet.Convert());
         }
 
-        //Allows the user to register a bouquet sale.
+
+        /// <summary>
+        /// Creates or adds a bouqet to a store.
+        /// </summary>
+        /// <param name="storeId">The unique identifier of the store</param>
+        /// <param name="input">The body of the store</param>
+        /// <returns></returns>
+        /// <response code="201">Bouqet is created</response>
+        /// <response code="404">The storeId was not found</response>
         [HttpPost("{storeId}/bouqets")]
         [ProducesResponseType(typeof(BouqetWebOutput), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> RegisterBouquetSale(int storeId, BouqetUpsertInput input)
+        public async Task<IActionResult> AddBouqetToStore(int storeId, BouqetUpsertInput input)
         {
             _logger.LogInformation($"Creating a bouqet for store {storeId}");
             try
@@ -85,11 +93,20 @@ namespace BloemenwinkelAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates a bouqet
+        /// </summary>
+        /// <param name="storeId">The unique identifier of the store</param>
+        /// <param name="bouqetId">The unique identifier of the bouqet</param>
+        /// <param name="input">The body of the store</param>
+        /// <returns></returns>
+        /// <respons code="202">Bouqet is updated</respons>
+        /// <respons code="404">Either storeId or bouqetId or both ids were not found</respons>
         [HttpPatch("{id}/bouqets/{bouqetId}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateBouqet(int storeId, int bouqetId, BouqetUpsertInput input)
+        public async Task<IActionResult> UpdateBouqetToStore(int storeId, int bouqetId, BouqetUpsertInput input)
         {
             _logger.LogInformation($"Updating bouqet {bouqetId} for store {storeId}");
             try
@@ -103,8 +120,16 @@ namespace BloemenwinkelAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a bouqet from store
+        /// </summary>
+        /// <param name="storeId">The unique identifier of the store</param>
+        /// <param name="bouqetId">The unique identifier of the bouqet</param>
+        /// <returns></returns>
+        /// <respons code="204">Bouqet is deleted</respons>
+        /// <respons code="404">Either storeId or bouqetId or both ids were not found</respons>
         [HttpDelete("{id}/bouqets/{bouqetId}")]
-        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteBouqetFromStore(int storeId, int bouqetId)

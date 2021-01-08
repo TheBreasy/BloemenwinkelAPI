@@ -23,5 +23,36 @@
             <response code="200">The get function was succesful</response>
             <response code="404">The get function didn't find any store of storeid or bouqet of bouqetid</response>
         </member>
+        <member name="M:BloemenwinkelAPI.Controllers.BouqetController.AddBouqetToStore(System.Int32,BloemenwinkelAPI.Model.Web.BouqetUpsertInput)">
+            <summary>
+            Creates or adds a bouqet to a store.
+            </summary>
+            <param name="storeId">The unique identifier of the store</param>
+            <param name="input">The body of the store</param>
+            <returns></returns>
+            <response code="201">Bouqet is created</response>
+            <response code="404">The storeId was not found</response>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.BouqetController.UpdateBouqetToStore(System.Int32,System.Int32,BloemenwinkelAPI.Model.Web.BouqetUpsertInput)">
+            <summary>
+            Updates a bouqet
+            </summary>
+            <param name="storeId">The unique identifier of the store</param>
+            <param name="bouqetId">The unique identifier of the bouqet</param>
+            <param name="input">The body of the store</param>
+            <returns></returns>
+            <respons code="202">Bouqet is updated</respons>
+            <respons code="404">Either storeId or bouqetId or both ids were not found</respons>
+        </member>
+        <member name="M:BloemenwinkelAPI.Controllers.BouqetController.DeleteBouqetFromStore(System.Int32,System.Int32)">
+            <summary>
+            Deletes a bouqet from store
+            </summary>
+            <param name="storeId">The unique identifier of the store</param>
+            <param name="bouqetId">The unique identifier of the bouqet</param>
+            <returns></returns>
+            <respons code="204">Bouqet is deleted</respons>
+            <respons code="404">Either storeId or bouqetId or both ids were not found</respons>
+        </member>
     </members>
 </doc>
