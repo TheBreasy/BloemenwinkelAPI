@@ -1,7 +1,11 @@
 ﻿using BloemenwinkelAPI.Model.Domain;
+using BloemenwinkelAPI.Repositories;
 using BloemenwinkelAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BloemenwinkelAPI.Controllers
 {
@@ -10,10 +14,16 @@ namespace BloemenwinkelAPI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly Orderservice _orderservice;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMemoryCache _memoryCache;
+        private readonly ILogger<OrderController> _logger;
 
-        public OrderController(Orderservice orderservice)
+        public OrderController(Orderservice orderservice, ILogger<OrderController> logger, IOrderRepository orderRepository, IMemoryCache memoryCache)
         {
             _orderservice = orderservice;
+            _orderRepository = orderRepository;
+            _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -70,5 +80,28 @@ namespace BloemenwinkelAPI.Controllers
 
             return NoContent();
         }
+
+
+
+
+        /*[HttpGet("Overview")]
+        public async Task<IActionResult> GetSalesOverview()
+        {
+            var sales = await GetAllOrderFromCacheAsync();
+            var overview = from sale in sales
+                           group sale by sale.Bouquet_id into bouquetOverview
+                           select new
+                           {
+                               Bouquet_id = bouquetOverview.Key,
+                               TotalAmountSold = bouquetOverview.Sum(x => x.Amount),
+                           };
+
+            overview = overview.OrderByDescending(bouquetOverview => bouquetOverview.TotalAmountSold);
+            return Ok(overview);
+        }*/
+
+
+
+
     }
 }

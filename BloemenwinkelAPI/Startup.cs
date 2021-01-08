@@ -17,6 +17,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
+using BasisRegisters.Vlaanderen;
+
+
 namespace BloemenwinkelAPI
 {
     public class Startup

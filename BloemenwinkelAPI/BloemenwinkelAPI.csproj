@@ -26,6 +26,7 @@
 	  </PackageReference>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
 	  <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
 	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.3" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
@@ -33,4 +34,15 @@
 	  <PackageReference Include="Snapshooter.Xunit" Version="0.5.8" />
   </ItemGroup>
 
+	<ItemGroup>
+		<OpenApiReference Include="docs.json" CodeGenerator="NSwagCSharp" Namespace="BasisRegisters.Vlaanderen">
+			<ClassName>BasisRegisterService</ClassName>
+			<OutputPath>BasisRegister.cs</OutputPath>
+			<Options>/UseBaseUrl:false /GenerateClientInterfaces:true</Options>
+		</OpenApiReference>
+	</ItemGroup>
+	
+
 </Project>
+
+

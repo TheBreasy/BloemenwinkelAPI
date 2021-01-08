@@ -43,7 +43,7 @@ namespace BloemenwinkelAPI.Tests.Unit
 
 
         [Fact]
-        public async Task TestGetAllGarages()
+        public async Task TestGetAllStores()
         {
             var returnSet = new[]
             {
