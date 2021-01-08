@@ -80,28 +80,5 @@ namespace BloemenwinkelAPI.Controllers
 
             return NoContent();
         }
-
-
-
-
-        /*[HttpGet("Overview")]
-        public async Task<IActionResult> GetSalesOverview()
-        {
-            var sales = await GetAllOrderFromCacheAsync();
-            var overview = from sale in sales
-                           group sale by sale.Bouquet_id into bouquetOverview
-                           select new
-                           {
-                               Bouquet_id = bouquetOverview.Key,
-                               TotalAmountSold = bouquetOverview.Sum(x => x.Amount),
-                           };
-
-            overview = overview.OrderByDescending(bouquetOverview => bouquetOverview.TotalAmountSold);
-            return Ok(overview);
-        }*/
-
-
-
-
     }
 }
